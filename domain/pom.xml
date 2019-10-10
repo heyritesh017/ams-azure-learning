@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ams-azure-learning</artifactId>
+        <groupId>com.azure.learning</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>domain</artifactId>
+
+    <name>domain</name>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>ams-schema-generate</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>src/main/xsd/ams</schemaDirectory>
+                            <catalog>src/main/xsd/ams/catalog.cat</catalog>
+                            <clearOutputDir>false</clearOutputDir>
+                            <staleFile>${project.build.directory}/generated-sources/.jaxb-staleFlag-ams</staleFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>dam-schema-generate</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>src/main/xsd/dam</schemaDirectory>
+                            <catalog>src/main/xsd/dam/catalog.cat</catalog>
+                            <packageName>com.tomtom.ams.domain.dam</packageName>
+                            <clearOutputDir>false</clearOutputDir>
+                            <extension>true</extension>
+                            <arguments>-no-header</arguments>
+                            <staleFile>${project.build.directory}/generated-sources/.jaxb-staleFlag-dam</staleFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
