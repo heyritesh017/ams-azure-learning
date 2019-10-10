@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2013-2017 TomTom International B.V. All rights reserved.
+
+-->
+<xsd:schema targetNamespace="http://www.tomtom.com/ns/dam/cl/authn/session/1"
+    xmlns="http://www.tomtom.com/ns/dam/cl/authn/session/1"
+    xmlns:authz="http://www.tomtom.com/ns/dam/cl/authz/services/1"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.2"
+            xml:lang="en">
+    <xsd:import namespace="http://www.tomtom.com/ns/dam/cl/authz/services/1" schemaLocation="01-dam-authz-services-1.0.xsd" />
+    <xsd:element name="session-in">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>This type is guaranteed to be backward compatible within the
+                    same minor version.
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:sequence>
+                <xsd:choice minOccurs="0" maxOccurs="1">
+                    <xsd:element name="saml2">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Either a SAML2 Response or a SAML2 Artifact can be used
+                                to carry assertion information.
+                            </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:choice minOccurs="1" maxOccurs="1">
+                                <xsd:element name="response" type="EncodedStringType">
+                                    <xsd:annotation>
+                                        <xsd:documentation>This element must contain a SAML2 assertion wrapped
+                                        in a Response. The "encoding" attribute indicates whether it is
+                                        base64-encoded or not.
+                                    </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="artifact" type="EncodedStringType">
+                                    <xsd:annotation>
+                                        <xsd:documentation>This element must contain a SAML2 Artifact. The
+                                        "encoding" attribute indicates whether it is base64-encoded or not.
+                                    </xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                            </xsd:choice>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+                <xsd:element name="client" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>Client information may be added.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:annotation>
+                                <xsd:documentation>When AMS auto-provisioning is enabled, a client-type may be provided.
+                                    Possible values are OEM-specific, and are specified in the OEM specific supplement.
+                                    The allowed character set is limited to a-z, A-Z, 0-9, '-' and '.'. The minimum
+                                    length is 1 character.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:element name="clientType" minOccurs="0" maxOccurs="1">
+                                <xsd:simpleType>
+                                    <xsd:restriction base="xsd:string">
+                                        <xsd:pattern value="([a-zA-Z0-9\-\.])+"/>
+                                    </xsd:restriction>
+                                </xsd:simpleType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:string" name="version" use="required" />
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="EncodedStringType">
+        <xsd:simpleContent>
+            <xsd:annotation>
+                <xsd:documentation>The EncodedStringType supports character data that is encoded
+                    in different formats. The "encoding" attribute informs the consumer of the
+                    character data of the encoding that was applied to the data.
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="encoding" use="required">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:token">
+                            <xsd:enumeration value="ident">
+                                <xsd:annotation>
+                                    <xsd:documentation>The identity encoding. This encoding type indicates
+                                        that no encoding was applied to the original character data, and the
+                                        data can be consumed as is (the &lt; and &amp; characters must of
+                                        course be escaped to form a valid XML character string).
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:enumeration>
+                            <xsd:enumeration value="base64">
+                                <xsd:annotation>
+                                    <xsd:documentation>The base64 encoding. This encoding type indicates
+                                        that the original character data has been base64-encoded according to
+                                        RFC4648, section 4.
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:enumeration>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:element name="session-out">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>This type is guaranteed to be forward compatible within the
+                    same minor version.
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:sequence>
+                <xsd:element name="clientId" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:annotation>
+                            <xsd:documentation>The Client ID of this identity.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleContent>
+                            <xsd:extension base="xsd:string">
+                                <xsd:anyAttribute namespace="##any" processContents="lax" />
+                            </xsd:extension>
+                        </xsd:simpleContent>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element ref="authz:services-out" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>The services the client is currently authorized to consume.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:any namespace="##targetNamespace" processContents="lax" minOccurs="0"
+                         maxOccurs="unbounded" />
+            </xsd:sequence>
+            <xsd:attribute type="xsd:string" name="version" use="required" />
+            <xsd:anyAttribute namespace="##any" processContents="lax" />
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2013-2017 TomTom International B.V. All rights reserved.
+
+-->
+<xsd:schema targetNamespace="http://www.tomtom.com/ns/ams/cl/authz/services/1"
+            xmlns="http://www.tomtom.com/ns/ams/cl/authz/services/1" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified" version="1.0" xml:lang="en">
+    <xsd:element name="services-out">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>This type is guaranteed to be forward compatible within the
+                    same minor version.
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:sequence>
+                <xsd:element name="service" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:annotation>
+                        <xsd:documentation>A list of Service IDs of the services the client is
+                            authorized to access at this point in time. If this element is absent, then
+                            the client is currently not authorized to consume any services.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="id" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>The Service ID of the service the client is
+                                        authorized to access at this point in time. The list of
+                                        available
+                                        Service IDs is OEM-specific.
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="ServiceIdType">
+                                            <xsd:anyAttribute namespace="##any"
+                                                              processContents="lax" />
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:any namespace="##targetNamespace" processContents="lax"
+                                     minOccurs="0" maxOccurs="unbounded" />
+                        </xsd:sequence>
+                        <xsd:anyAttribute namespace="##any" processContents="lax" />
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:string" name="version" use="required" />
+            <xsd:anyAttribute namespace="##any" processContents="lax" />
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="ServiceIdType">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="[a-zA-Z]+(\.[a-zA-Z]+)*" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2013-2017 TomTom International B.V. All rights reserved.
+
+-->
+<xsd:schema targetNamespace="http://www.tomtom.com/ns/ams/error/1"
+            xmlns="http://www.tomtom.com/ns/ams/error/1"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.1"
+            xml:lang="en">
+    <xsd:element name="errors-out">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>This type is guaranteed to be forward compatible within the
+                    same minor version.
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:sequence>
+                <xsd:element name="error" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="code" minOccurs="1" maxOccurs="1">
+                                <xsd:complexType>
+                                    <xsd:annotation>
+                                        <xsd:documentation>A numerical code identifying the error.
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="ErrorCodeType">
+                                            <xsd:anyAttribute namespace="##any"
+                                                              processContents="lax" />
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="description" minOccurs="1" maxOccurs="1">
+                                <xsd:complexType>
+                                    <xsd:annotation>
+                                        <xsd:documentation>A human-readable description of the error. Intended
+                                            for debugging purposes only, must not be displayed to end users.
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="xsd:string">
+                                            <xsd:anyAttribute namespace="##any"
+                                                              processContents="lax" />
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="cause" minOccurs="1" maxOccurs="1">
+                                <xsd:complexType>
+                                    <xsd:annotation>
+                                        <xsd:documentation>A list of references to information elements that
+                                            allow for identifying the cause of the error, if applicable to this
+                                            error type. If not applicable, this list is empty.
+                                        </xsd:documentation>
+                                    </xsd:annotation>
+                                    <xsd:sequence>
+                                        <xsd:element name="reference" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:annotation>
+                                                    <xsd:documentation>A reference to an information element that
+                                                        allows for identifying the cause of the error. The string
+                                                        content contains the value of the information element, the
+                                                        "name" attribute contains an identifier of the information
+                                                        element.
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                                <xsd:simpleContent>
+                                                    <xsd:extension base="xsd:string">
+                                                        <xsd:attribute type="xsd:string" name="name"
+                                                                       use="required" />
+                                                        <xsd:anyAttribute namespace="##any"
+                                                                          processContents="lax" />
+                                                    </xsd:extension>
+                                                </xsd:simpleContent>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                    <xsd:anyAttribute namespace="##any" processContents="lax" />
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:any namespace="##targetNamespace" processContents="lax"
+                                     minOccurs="0" maxOccurs="unbounded" />
+                        </xsd:sequence>
+                        <xsd:anyAttribute namespace="##any" processContents="lax" />
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:string" name="version" use="required" />
+            <xsd:anyAttribute namespace="##any" processContents="lax" />
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="ErrorCodeType">
+        <xsd:union memberTypes="GenericErrorCodeType xsd:positiveInteger" />
+    </xsd:simpleType>
+
+    <xsd:simpleType name="GenericErrorCodeType">
+        <xsd:restriction base="xsd:nonPositiveInteger">
+            <xsd:enumeration value="0" />
+            <xsd:enumeration value="-1" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

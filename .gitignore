@@ -1,0 +1,11 @@
+target/
+obj/
+*.iml
+*.ipr
+*.iws
+*.idea
+*.eclipse
+*.csproj
+extensions.csproj.nuget.dgspec.json
+project.assets.json
+
