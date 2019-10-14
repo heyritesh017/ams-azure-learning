@@ -30,6 +30,7 @@
                             <schemaDirectory>src/main/xsd/ams</schemaDirectory>
                             <catalog>src/main/xsd/ams/catalog.cat</catalog>
                             <clearOutputDir>false</clearOutputDir>
+                            <packageName>com.azure.learning.domain.internal</packageName>
                             <staleFile>${project.build.directory}/generated-sources/.jaxb-staleFlag-ams</staleFile>
                         </configuration>
                     </execution>
@@ -42,7 +43,7 @@
                         <configuration>
                             <schemaDirectory>src/main/xsd/dam</schemaDirectory>
                             <catalog>src/main/xsd/dam/catalog.cat</catalog>
-                            <packageName>com.tomtom.ams.domain.dam</packageName>
+                            <packageName>com.azure.learning.domain.dam</packageName>
                             <clearOutputDir>false</clearOutputDir>
                             <extension>true</extension>
                             <arguments>-no-header</arguments>
