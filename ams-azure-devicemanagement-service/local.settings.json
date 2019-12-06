@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "function.name": "createDeviceFunction",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=tt-ams-playground;AccountKey=YdclFrm9QHb6xwTL2LSrllwhfW73bd69Z8TDQsBRMWLjyQD9TMSHez6fMdaT4TLReyXhLPHBgT8Kc10dI6QV2Q==;TableEndpoint=https://tt-ams-playground.table.cosmos.azure.com:443/;",
+    "ConnectionString" : "DefaultEndpointsProtocol=https;AccountName=tt-ams-playground;AccountKey=YdclFrm9QHb6xwTL2LSrllwhfW73bd69Z8TDQsBRMWLjyQD9TMSHez6fMdaT4TLReyXhLPHBgT8Kc10dI6QV2Q==;TableEndpoint=https://tt-ams-playground.table.cosmos.azure.com:443/;",
+    "FUNCTIONS_WORKER_RUNTIME": "java"
+  }
+}

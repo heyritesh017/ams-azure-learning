@@ -18,7 +18,6 @@
         <relativePath/>
     </parent>
 
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -47,8 +46,10 @@
         </dependencies>
     </dependencyManagement>
     <modules>
+        <module>ams-azure-devicemanagement-service</module>
         <module>ams-azure-entitlementservice</module>
         <module>domain</module>
+        <module>ams-azure-common</module>
     </modules>
 
 
